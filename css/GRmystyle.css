@@ -1,0 +1,27 @@
+/*
+    GRmystyle.css
+    Assignment 2
+
+    Revision History
+        Gonzalo Ramos Zúñiga, 2017.02.20: Created
+*/
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#GREditForm a:first-child {
+    border-color: yellow;
+    background-color: yellow;
+}
+
+label.error {
+    color: #F00;
+    font-weight: bold;
+}
+
+input.error, select.error, textarea.error {
+    border: 1px red solid;
+}

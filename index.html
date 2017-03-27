@@ -1,0 +1,237 @@
+<!--
+    index.html
+    Assignment 3
+
+    Revision History
+        Gonzalo Ramos Zúñiga, 2017.03.26: Updated
+        Gonzalo Ramos Zúñiga, 2017.02.20: Updated
+        Gonzalo Ramos Zúñiga, 2017.02.03: Created
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0, user-scalable=no">
+    <title>GR Feedback A3</title>
+    <script src="js/jquery-2.1.4.js"></script>
+    <script src="js/jquery.mobile-1.4.5.js"></script>
+    <script src="js/jquery.validate.js"></script>
+    <script src="js/GRdatabase.js"></script>
+    <script src="js/GRfeedbackDAL.js"></script>
+    <script src="js/GRutil.js"></script>
+    <script src="js/GRglobal.js"></script>
+    <script src="js/GRfacade.js"></script>
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.5.css">
+    <link rel="stylesheet" href="css/GRmystyle.css">
+    <link rel="icon" href="images/GR-icon.png">
+</head>
+<body>
+<!--HOME-->
+<div data-role="page" id="GRHomePage">
+    <header data-role="header" data-position="fixed" data-tap-toggle="false" data-theme="b">
+        <h1>GR Feedback A3</h1>
+    </header>
+    <div data-role="navbar">
+        <ul>
+            <li>
+                <a href="#GRHomePage" data-icon="home" class="ui-btn-active ui-state-persist">Home</a>
+            </li>
+            <li>
+                <a href="#GRAddFeedbackPage" data-icon="plus">Add</a>
+            </li>
+            <li>
+                <a href="#GRViewFeedbackPage" data-icon="grid">Reviews</a>
+            </li>
+            <li>
+                <a href="#GRSettingsPage" data-icon="gear">Settings</a>
+            </li>
+        </ul>
+    </div>
+    <section data-role="content">
+        <h1>Gonzalo Ramos' Feedback A3 App</h1>
+        <p>Welcome to the Gonzalo Ramos' Feedback A2 app. A prototype designed for mobile programming class. This is the
+            first iteration of the app to keep track of different places you visited along with your reviews.</p>
+        <img src="images/GR-icon.png">
+        <p>Please feel free to contact me if you have any suggestions!</p>
+        <a href="tel:5197485220" target="_blank" data-role="button" data-icon="plus">Call: 519.748.5220</a>
+        <a href="mailto:gramoszuniga5711@conestogac.on.ca" target="_blank" data-role="button" data-icon="plus">gramoszuniga5711@conestogac.on.ca</a>
+        <p>Website:</p>
+        <a href="http://www.conestogac.on.ca/" target="_blank" data-role="button" data-icon="plus">Conestoga College</a>
+    </section>
+    <footer data-role="footer" data-position="fixed" data-tap-toggle="false" data-theme="b">
+        <h1>&copy; 2016 Gonzalo Ramos</h1>
+    </footer>
+</div>
+<!--ADD-->
+<div data-role="page" id="GRAddFeedbackPage">
+    <header data-role="header" data-position="fixed" data-tap-toggle="false" data-theme="b">
+        <h1>Add a Feedback</h1>
+    </header>
+    <div data-role="navbar">
+        <ul>
+            <li>
+                <a href="#GRHomePage" data-icon="home">Home</a>
+            </li>
+            <li>
+                <a href="#GRAddFeedbackPage" data-icon="plus" class="ui-btn-active ui-state-persist">Add</a>
+            </li>
+            <li>
+                <a href="#GRViewFeedbackPage" data-icon="grid">Reviews</a>
+            </li>
+            <li>
+                <a href="#GRSettingsPage" data-icon="gear">Settings</a>
+            </li>
+        </ul>
+    </div>
+    <section data-role="content">
+        <form id="GRAddForm" action="">
+            <label for="GRAddBusinessName">Business Name:</label>
+            <input type="text" id="GRAddBusinessName" name="GRAddBusinessName">
+            <label for="GRAddType">Type:</label>
+            <select id="GRAddType" name="GRAddType"></select>
+            <label for="GRAddEmail">Reviewer Email:</label>
+            <input type="text" id="GRAddEmail" name="GRAddEmail">
+            <label for="GRAddComment">Reviewer Comments</label>
+            <textarea id="GRAddComment" name="GRAddComment" cols="30" rows="10"></textarea>
+            <label for="GRAddDate">Review Date:</label>
+            <input type="date" id="GRAddDate" name="GRAddDate">
+            <label for="GRAddWantRatings"><input type="checkbox" id="GRAddWantRatings" name="GRAddWantRatings">Do you
+                want to add your ratings?</label>
+            <div id="GRAddRatings">
+                <label for="GRAddFoodQuality">Food Quality (0-5):</label>
+                <input type="number" id="GRAddFoodQuality" name="GRAddFoodQuality">
+                <label for="GRAddService">Service (0-5):</label>
+                <input type="number" id="GRAddService" name="GRAddService">
+                <label for="GRAddValue">Value (0-5):</label>
+                <input type="number" id="GRAddValue" name="GRAddValue">
+                <label for="GRAddOverallRating">Overall Rating (calculated):</label>
+                <input type="text" id="GRAddOverallRating" name="GRAddOverallRating" disabled>
+            </div>
+            <a href="#" data-role="button" data-inline="true" class="ui-btn-active" id="GRSaveFeedback"
+               name="GRSaveFeedback">Save</a>
+        </form>
+    </section>
+    <footer data-role="footer" data-position="fixed" data-tap-toggle="false" data-theme="b">
+        <h1>&copy; 2016 Gonzalo Ramos</h1>
+    </footer>
+</div>
+<!--VIEW-->
+<div data-role="page" id="GRViewFeedbackPage">
+    <header data-role="header" data-position="fixed" data-tap-toggle="false" data-theme="b">
+        <h1>List of Reviews</h1>
+    </header>
+    <div data-role="navbar">
+        <ul>
+            <li>
+                <a href="#GRHomePage" data-icon="home">Home</a>
+            </li>
+            <li>
+                <a href="#GRAddFeedbackPage" data-icon="plus">Add</a>
+            </li>
+            <li>
+                <a href="#GRViewFeedbackPage" data-icon="grid" class="ui-btn-active ui-state-persist">Reviews</a>
+            </li>
+            <li>
+                <a href="#GRSettingsPage" data-icon="gear">Settings</a>
+            </li>
+        </ul>
+    </div>
+    <section data-role="content">
+        <ul data-role="listview" data-icon="" id="GRFeedbackList" class="ui-listview-inset"></ul>
+    </section>
+    <footer data-role="footer" data-position="fixed" data-tap-toggle="false" data-theme="b">
+        <h1>&copy; 2016 Gonzalo Ramos</h1>
+    </footer>
+</div>
+<!--EDIT-->
+<div data-role="page" id="GREditFeedbackPage">
+    <header data-role="header" data-position="fixed" data-tap-toggle="false" data-theme="b">
+        <h1>Modify Feedback</h1>
+    </header>
+    <div data-role="navbar">
+        <ul>
+            <li>
+                <a href="#GRHomePage" data-icon="home">Home</a>
+            </li>
+            <li>
+                <a href="#GRAddFeedbackPage" data-icon="plus">Add</a>
+            </li>
+            <li>
+                <a href="#GRViewFeedbackPage" data-icon="grid" class="ui-btn-active ui-state-persist">Reviews</a>
+            </li>
+            <li>
+                <a href="#GRSettingsPage" data-icon="gear">Settings</a>
+            </li>
+        </ul>
+    </div>
+    <section data-role="content">
+        <form id="GREditForm" action="">
+            <label for="GREditBusinessName">Business Name:</label>
+            <input type="text" id="GREditBusinessName" name="GREditBusinessName">
+            <label for="GREditType">Type:</label>
+            <select id="GREditType" name="GREditType"></select>
+            <label for="GREditEmail">Reviewer Email:</label>
+            <input type="text" id="GREditEmail" name="GREditEmail">
+            <label for="GREditComment">Reviewer Comments</label>
+            <textarea id="GREditComment" name="GREditComment" cols="30" rows="10"></textarea>
+            <label for="GREditDate">Review Date:</label>
+            <input type="date" id="GREditDate" name="GREditDate">
+            <label for="GREditWantRatings"><input type="checkbox" id="GREditWantRatings" name="GREditWantRatings">Do you
+                want to add your ratings?</label>
+            <div id="GREditRatings">
+                <label for="GREditFoodQuality">Food Quality (0-5):</label>
+                <input type="number" id="GREditFoodQuality" name="GREditFoodQuality">
+                <label for="GREditService">Service (0-5):</label>
+                <input type="number" id="GREditService" name="GREditService">
+                <label for="GREditValue">Value (0-5):</label>
+                <input type="number" id="GREditValue" name="GREditValue">
+                <label for="GREditOverallRating">Overall Rating (calculated):</label>
+                <input type="text" id="GREditOverallRating" name="GREditOverallRating" disabled>
+            </div>
+            <div data-role="controlgroup" data-type="horizontal">
+                <a href="#" data-role="button" id="GRCancelFeedback" name="GRCancelFeedback">Cancel</a>
+                <a href="#" data-role="button" data-theme="b" id="GRDeleteFeedback" name="GRDeleteFeedback">Delete</a>
+                <a href="#" data-role="button" class="ui-btn-active" id="GRUpdateFeedback" name="GRUpdateFeedback">Update</a>
+            </div>
+        </form>
+    </section>
+    <footer data-role="footer" data-position="fixed" data-tap-toggle="false" data-theme="b">
+        <h1>&copy; 2016 Gonzalo Ramos</h1>
+    </footer>
+</div>
+<!--SETTINGS-->
+<div data-role="page" id="GRSettingsPage">
+    <header data-role="header" data-position="fixed" data-tap-toggle="false" data-theme="b">
+        <h1>Settings</h1>
+    </header>
+    <div data-role="navbar">
+        <ul>
+            <li>
+                <a href="#GRHomePage" data-icon="home">Home</a>
+            </li>
+            <li>
+                <a href="#GRAddFeedbackPage" data-icon="plus">Add</a>
+            </li>
+            <li>
+                <a href="#GRViewFeedbackPage" data-icon="grid">Reviews</a>
+            </li>
+            <li>
+                <a href="#GRSettingsPage" data-icon="gear" class="ui-btn-active ui-state-persist">Settings</a>
+            </li>
+        </ul>
+    </div>
+    <section data-role="content">
+        <form id="GRSettingsForm" action="">
+            <label for="GRDefaultEmail">Default Reviewer Email:</label>
+            <input type="text" id="GRDefaultEmail" name="GRDefaultEmail">
+            <a href="#" data-role="button" class="ui-btn-active" id="GRSaveDefaults" name="GRSaveDefaults">Save
+                Defaults</a>
+            <a href="#" data-role="button" data-theme="b" id="GRClearDB" name="GRClearDB">Clear Database</a>
+        </form>
+    </section>
+    <footer data-role="footer" data-position="fixed" data-tap-toggle="false" data-theme="b">
+        <h1>&copy; 2016 Gonzalo Ramos</h1>
+    </footer>
+</div>
+</body>
+</html>
